@@ -6,7 +6,7 @@ import time
 import torch.distributed as dist
 import torch.utils.data.distributed
 from tqdm import tqdm
-from warpctc_pytorch import CTCLoss
+from torch.nn import CTCLoss
 
 from data.data_loader import AudioDataLoader, SpectrogramDataset, BucketingSampler, DistributedBucketingSampler
 from data.utils import reduce_tensor
