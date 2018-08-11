@@ -71,6 +71,8 @@ parser.add_argument('--rank', default=0, type=int,
                     help='The rank of this process')
 parser.add_argument('--gpu-rank', default=None,
                     help='If using distributed parallel for multi-gpu, sets the GPU for the process')
+parser.add_argument('--prof', action='store_true',
+                    help='Enable autograd profiler')
 
 torch.manual_seed(123456)
 torch.cuda.manual_seed_all(123456)
@@ -99,8 +101,7 @@ class AverageMeter(object):
         self.avg = self.sum / self.count
 
 
-if __name__ == '__main__':
-    args = parser.parse_args()
+def train_main(args):
     args.distributed = args.world_size > 1
     main_proc = True
     if args.distributed:
@@ -387,3 +388,13 @@ if __name__ == '__main__':
             if not args.no_shuffle:
                 print("Shuffling batches...")
                 train_sampler.shuffle(epoch)
+
+if __name__ == '__main__':
+    args = parser.parse_args()
+    if args.prof:
+        print("Enable autograd profiler")
+        with torch.autograd.profiler.profile() as prof:
+            train_main(args)
+        prof.export_chrome_trace("prof.json")
+    else:
+        train_main(args)
