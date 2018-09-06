@@ -129,7 +129,7 @@ Optionally you can specify the exact librispeech files you want if you don't wan
 
 ```
 cd data/
-python librispeech.py --files-to-use "train-clean-100.tar.gz, train-clean-360.tar.gz,train-other-500.tar.gz, dev-clean.tar.gz,dev-other.tar.gz, test-clean.tar.gz,test-other.tar.gz"
+python librispeech.py --files-to-use "train-clean-100.tar.gz, dev-clean.tar.gz, test-clean.tar.gz"
 ```
 
 ### Custom Dataset
